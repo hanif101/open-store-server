@@ -6,7 +6,7 @@ const mongooseBaseName = 'express-server'
 // create the mongodb uri for development and test
 const database = {
   // set this to mongodb atlas after  .env file created
-  development: `mongodb://localhost/${mongooseBaseName}-development`,
+  development: `${process.env.DB_URI}`,
   test: `mongodb://localhost/${mongooseBaseName}-test`
 }
 

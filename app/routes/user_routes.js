@@ -8,6 +8,7 @@ const asyncHandler = require('express-async-handler')
 // imports
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')
 const User = require('../models/user')
+const upload = require('../../multer-mw/updateProfileImage')
 
 const bcryptSaltRounds = 10
 const requireToken = passport.authenticate('bearer', { session: false })
@@ -20,10 +21,10 @@ const router = express.Router()
 router.post(
   '/sign-up',
   asyncHandler(async (req, res, next) => {
-    const { email, password, passwordConfirmation } = req.body.credentials
+    const { username, email, password, passwordConfirmation } = req.body.credentials
 
     // check inputs
-    if (!email || !password || password !== passwordConfirmation) {
+    if (!username || !email || !password || password !== passwordConfirmation) {
       throw new BadParamsError()
     }
 
@@ -32,8 +33,10 @@ router.post(
 
     // create
     const user = await User.create({
+      username,
       email,
-      hashedPassword: hashed
+      hashedPassword: hashed,
+      avatar: process.env.SERVER + '/uploads/' + 'default.jpeg'
     })
 
     // response
@@ -46,10 +49,12 @@ router.post(
 router.post(
   '/sign-in',
   asyncHandler(async (req, res, next) => {
-    const { password, email } = req.body.credentials
+    const { password, username } = req.body.credentials
 
     // gets user from db
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ username })
+
+    // if no user
     if (!user) {
       throw new BadCredentialsError()
     }
@@ -113,6 +118,7 @@ router.delete(
   requireToken,
   asyncHandler(async (req, res, next) => {
     // create a new random token for the user, invalidating the current one
+    console.log(req.user)
     req.user.token = crypto.randomBytes(16).toString('hex')
 
     // save the token and respond with 204
@@ -120,6 +126,26 @@ router.delete(
 
     res.sendStatus(204)
   })
+)
+
+/* AVATAR */
+// PATCH
+// Update Profile Image
+router.post(
+  '/avatar',
+  requireToken,
+  upload.single('avatar'),
+  asyncHandler(async (req, res, next) => {
+    const response = await User.findByIdAndUpdate(req.user._id, {
+      'avatar': process.env.SERVER + '/uploads/' + req.avatar
+    }, {
+      new: true,
+      runValidators: true
+    })
+
+    res.status(200).json(response)
+  })
+
 )
 
 module.exports = router

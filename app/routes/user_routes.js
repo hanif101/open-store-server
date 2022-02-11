@@ -36,7 +36,7 @@ router.post(
       username,
       email,
       hashedPassword: hashed,
-      avatar: process.env.SERVER + '/uploads/' + 'default.jpeg'
+      avatar: '/profile/' + 'default.jpeg'
     })
 
     // response
@@ -131,13 +131,13 @@ router.delete(
 /* AVATAR */
 // PATCH
 // Update Profile Image
-router.post(
+router.patch(
   '/avatar',
   requireToken,
   upload.single('avatar'),
   asyncHandler(async (req, res, next) => {
     const response = await User.findByIdAndUpdate(req.user._id, {
-      'avatar': process.env.SERVER + '/uploads/' + req.avatar
+      'avatar': '/profile/' + req.avatar
     }, {
       new: true,
       runValidators: true

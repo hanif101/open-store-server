@@ -35,4 +35,4 @@ const householdSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('HouseHold & Essential', householdSchema)
+module.exports = mongoose.model('HouseHold', householdSchema)

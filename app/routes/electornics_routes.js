@@ -1,12 +1,14 @@
+/* eslint-disable */
 //  NPM packages
 const express = require('express')
 const passport = require('passport')
 const asyncHandler = require('express-async-handler')
 
 // imports
-const electronicsSchema = require('../models/electronics')
+const Electronic = require('../models/Electronic')
 const customErrors = require('../../lib/custom_errors')
 const removeBlanks = require('../../lib/remove_blank_fields')
+const createProduct = require('../../multer-mw/createProductsImages')
 
 // declarations
 const handle404 = customErrors.handle404
@@ -19,20 +21,16 @@ const router = express.Router()
 /*  C R U D  */
 
 // INDEX
-// GET /examples
-// router.get('/examples', requireToken, asyncHandler(async (req, res, next) => {
-//   electronicsMediaSchema.find()
-//     .then(examples => {
-//       // `examples` will be an array of Mongoose documents
-//       // we want to convert each one to a POJO, so we use `.map` to
-//       // apply `.toObject` to each one
-//       return examples.map(example => example.toObject())
-//     })
-//     // respond with status 200 and JSON of the examples
-//     .then(examples => res.status(200).json({ examples: examples }))
-//     // if an error occurs, pass it to the handler
-//     .catch(next)
-// }))
+// GET / electornics
+router.get(
+  '/electronics-media',
+  requireToken,
+  asyncHandler(async (req, res, next) => {
+    /*  */
+    const response = await Electronic.find()
+    res.status(200).json(response)
+  })
+)
 
 // SHOW
 // GET /examples/5a7db6c74d55bc51bdf39793
@@ -47,14 +45,24 @@ const router = express.Router()
 // })
 
 // CREATE
-// POST /examples
-router.post('/electronics-media', requireToken, asyncHandler(async (req, res, next) => {
-  // add owner to data
-  req.body.owner = req.user.id
-  let data = await electronicsSchema.create(req.body)
+// POST / electronics
+router.post(
+  '/electronics-media',
+  requireToken,
+  asyncHandler(async (req, res, next) => {
+    // add owner and images
+    req.body.owner = req.user._id
+    req.body.imageUrl = []
+    let product = await Electronic.create(req.body)
 
-  res.status(201).json({ example: data.toObject() })
-}))
+    // if no created
+    if (!product) {
+      throw new customErrors.BadCredentialsError()
+    }
+
+    res.status(201).json(product)
+  })
+)
 
 // UPDATE
 // PATCH /examples/5a7db6c74d55bc51bdf39793
@@ -95,5 +103,33 @@ router.post('/electronics-media', requireToken, asyncHandler(async (req, res, ne
 //     // if an error occurs, pass it to the handler
 //     .catch(next)
 // })
+
+/* Upload Images */
+// POST or PATCH
+// Update Profile Image
+
+router.patch(
+  '/electronics-media-images/:id',
+  requireToken,
+  createProduct.array('files', 10),
+  asyncHandler(async (req, res, next) => {
+    console.log(req.params)
+    let imageUrl = []
+    req.files.map(image=> {
+      let a = '/product_image/' + image.filename
+      imageUrl.push(a)
+    })
+
+    const response = await Electronic.findByIdAndUpdate( req.params.id, {
+      imageUrl
+    }, {
+      new: true,
+      runValidators: true
+    })
+
+    res.status(200).json(response)
+  })
+
+)
 
 module.exports = router

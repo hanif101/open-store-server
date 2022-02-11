@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const homegardenSchema = new mongoose.Schema({
+const babyKidsSchema = new mongoose.Schema({
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,4 +35,4 @@ const homegardenSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Home & Garden', homegardenSchema)
+module.exports = mongoose.model('BabyKid', babyKidsSchema)

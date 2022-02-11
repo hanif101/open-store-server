@@ -8,9 +8,9 @@ const uniqid = require('uniqid')
 const storage = multer.diskStorage({
 
   destination: function (req, file, cb) {
-    /*  */
+  /*  */
     const rootDir = path.dirname(require.main.filename)
-    cb(null, path.join(rootDir, '/public/profile'))
+    cb(null, path.join(rootDir, '/public/product_image'))
   },
   /*  */
   filename: function (req, file, cb) {
@@ -32,6 +32,6 @@ const fileFilter = (req, file, cb) => {
   return cb(null, true)
 }
 
-const upload = multer({storage, fileFilter})
+const createProduct = multer({storage, fileFilter})
 
-module.exports = upload
+module.exports = createProduct

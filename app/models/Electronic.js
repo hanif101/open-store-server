@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const babyKidsSchema = new mongoose.Schema({
+const electronicsSchema = new mongoose.Schema({
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +18,7 @@ const babyKidsSchema = new mongoose.Schema({
     required: true
   },
 
-  loation: {
+  location: {
     type: String
   },
 
@@ -27,12 +27,10 @@ const babyKidsSchema = new mongoose.Schema({
     required: true
   },
 
-  imageUrl: {
-    type: Buffer
-  }
+  imageUrl: []
 
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('Baby & Kid', babyKidsSchema)
+module.exports = mongoose.model('Electronic', electronicsSchema)

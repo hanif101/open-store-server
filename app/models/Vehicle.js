@@ -8,7 +8,17 @@ const vehicleSchema = new mongoose.Schema({
     required: true
   },
 
-  title: {
+  type: {
+    type: String,
+    required: true
+  },
+
+  year: {
+    type: String,
+    required: true
+  },
+
+  make: {
     type: String,
     required: true
   },
@@ -27,9 +37,7 @@ const vehicleSchema = new mongoose.Schema({
     required: true
   },
 
-  imageUrl: {
-    type: Buffer
-  }
+  imageUrl: []
 
 }, {
   timestamps: true

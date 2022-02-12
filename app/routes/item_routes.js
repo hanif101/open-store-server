@@ -5,7 +5,7 @@ const passport = require('passport')
 const asyncHandler = require('express-async-handler')
 
 // imports
-const Electronic = require('../models/Electronic')
+const Item = require('../models/Item')
 const customErrors = require('../../lib/custom_errors')
 const removeBlanks = require('../../lib/remove_blank_fields')
 const createProduct = require('../../multer-mw/createProductsImages')
@@ -23,11 +23,10 @@ const router = express.Router()
 // INDEX
 // GET / electornics
 router.get(
-  '/electronics-media',
-  requireToken,
+  '/index-item',
   asyncHandler(async (req, res, next) => {
     /*  */
-    const response = await Electronic.find()
+    const response = await Item.find()
     res.status(200).json(response)
   })
 )
@@ -47,13 +46,13 @@ router.get(
 // CREATE
 // POST / electronics
 router.post(
-  '/electronics-media',
+  '/create-item',
   requireToken,
   asyncHandler(async (req, res, next) => {
     // add owner and images
     req.body.owner = req.user._id
     req.body.imageUrl = []
-    let product = await Electronic.create(req.body)
+    let product = await Item.create(req.body)
 
     // if no created
     if (!product) {
@@ -109,7 +108,7 @@ router.post(
 // Update Profile Image
 
 router.patch(
-  '/electronics-media-images/:id',
+  '/item/:id',
   requireToken,
   createProduct.array('files', 10),
   asyncHandler(async (req, res, next) => {
@@ -120,7 +119,7 @@ router.patch(
       imageUrl.push(a)
     })
 
-    const response = await Electronic.findByIdAndUpdate( req.params.id, {
+    const response = await Item.findByIdAndUpdate( req.params.id, {
       imageUrl
     }, {
       new: true,

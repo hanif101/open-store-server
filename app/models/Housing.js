@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const babyKidsSchema = new mongoose.Schema({
+const housingSchema = new mongoose.Schema({
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -8,7 +8,25 @@ const babyKidsSchema = new mongoose.Schema({
     required: true
   },
 
-  title: {
+  purpose: {
+    // rent or sell
+    type: String,
+    required: true
+  },
+
+  type: {
+    // apartment or house
+    type: String,
+    required: true
+  },
+
+  bedrooms: {
+
+    type: String,
+    required: true
+  },
+
+  bathrooms: {
     type: String,
     required: true
   },
@@ -27,12 +45,10 @@ const babyKidsSchema = new mongoose.Schema({
     required: true
   },
 
-  imageUrl: {
-    type: Buffer
-  }
+  imageUrl: []
 
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('BabyKid', babyKidsSchema)
+module.exports = mongoose.model('Housing', housingSchema)

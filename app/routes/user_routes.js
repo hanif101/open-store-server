@@ -1,3 +1,4 @@
+/* eslint-disable */
 //  NPM packages
 const express = require('express')
 const crypto = require('crypto')
@@ -9,6 +10,7 @@ const asyncHandler = require('express-async-handler')
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')
 const User = require('../models/user')
 const upload = require('../../multer-mw/updateProfileImage')
+const validateCookie = require('../../lib/cookie-mw')
 
 const bcryptSaltRounds = 10
 const requireToken = passport.authenticate('bearer', { session: false })
@@ -61,10 +63,10 @@ router.post(
 
     // check that the password is correct
     let correctPassword = await bcrypt.compare(password, user.hashedPassword)
-
+    let token
     if (correctPassword) {
       // generate token
-      const token = crypto.randomBytes(16).toString('hex')
+      token = crypto.randomBytes(16).toString('hex')
       user.token = token
 
       // save user
@@ -74,7 +76,10 @@ router.post(
       throw new BadCredentialsError()
     }
 
-    // response
+    // for cookie
+    req.session.user= user
+    console.log(req.session)
+    // response and cookies
     res.status(200).json({ user: user.toObject() })
   })
 )
@@ -123,6 +128,7 @@ router.delete(
 
     // save the token and respond with 204
     await req.user.save()
+    req.session.user= null
 
     res.sendStatus(204)
   })
@@ -136,16 +142,35 @@ router.patch(
   requireToken,
   upload.single('avatar'),
   asyncHandler(async (req, res, next) => {
-    const response = await User.findByIdAndUpdate(req.user._id, {
-      'avatar': '/profile/' + req.avatar
-    }, {
-      new: true,
-      runValidators: true
-    })
+    const response = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        avatar: '/profile/' + req.avatar
+      },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
 
     res.status(200).json(response)
   })
-
 )
 
+
+// logedIn
+router.get(
+  '/loggedin',
+  asyncHandler(async (req, res, next) => {
+
+    console.log(req.session)
+
+    if(!req.session.user) {
+      res.status(200).json({signedin_user: null})
+    } else {
+      res.status(200).json({signedin_user: req.session.user})
+    }
+
+  })
+)
 module.exports = router

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const electronicsSchema = new mongoose.Schema({
+const itemSchema = new mongoose.Schema({
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -33,4 +33,4 @@ const electronicsSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Electronic', electronicsSchema)
+module.exports = mongoose.model('Item', itemSchema)

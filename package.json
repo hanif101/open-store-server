@@ -6,7 +6,6 @@
   "scripts": {
     "node": "node server.js",
     "test": "mocha --exit",
-    "start": "nodemon server.js",
     "server": "nodemon server.js",
     "serve": "nodemon server.js",
     "s": "nodemon server.js",

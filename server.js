@@ -26,15 +26,6 @@ const serverDevPort = 3040
 const clientDevPort = 7165
 const port = process.env.PORT || serverDevPort
 
-const allowCrossDomain = function (req, res, next) {
-  res.header()
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
-
-  // intercept OPTIONS method
-  next()
-}
-
 // database connection
 mongoose
   .connect(db, {
@@ -49,7 +40,6 @@ mongoose
 const app = express()
 
 //  CORS imported later
-app.use(allowCrossDomain)
 app.use(express.methodOverride())
 
 // cors

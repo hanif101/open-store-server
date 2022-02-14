@@ -42,8 +42,6 @@ router.get(
 
     // check if dos exist
     handle404(item)
-
-    req.session.item = item
     res.status(200).json(item)
 
   })

@@ -3,10 +3,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
-const cookieParser = require('cookie-parser')
-const session = require('express-session')
 
+// const cookieParser = require('cookie-parser')
+// const session = require('express-session')
 // create .env file for private db || apis
+
 require('dotenv').config()
 
 // imports
@@ -47,19 +48,21 @@ app.use(
 
 // app.use()
 // register passport authentication middleware
+
 app.use(auth)
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(cookieParser())
-app.use(session({
-  key: 'userId',
-  secret: '123456789',
-  resave: 'false',
-  saveUninitialized: false,
-  cookie: {
-    expires: 1000 * 60 * 60 /* 1 hour */ * 24 /* 24 hour */
-  }
-}))
+
+// app.use(cookieParser())
+// app.use(session({
+//   key: 'userId',
+//   secret: '123456789',
+//   resave: 'false',
+//   saveUninitialized: false,
+//   cookie: {
+//     expires: 1000 * 60 * 60 /* 1 hour */ * 24 /* 24 hour */
+//   }
+// }))
 
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(express.urlencoded({ extended: true }))

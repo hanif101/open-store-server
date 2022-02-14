@@ -77,7 +77,7 @@ router.post(
     }
 
     // for cookie
-    req.session.user= user
+    // req.session.user= user
     // console.log(req.session)
     // response and cookies
     res.status(200).json({ user: user.toObject() })

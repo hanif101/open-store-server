@@ -45,8 +45,7 @@ app.use(express.methodOverride())
 // cors
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`,
-    credentials: false
+    origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`
   })
 )
 

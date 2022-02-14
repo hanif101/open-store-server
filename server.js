@@ -39,9 +39,6 @@ mongoose
 // app & server created
 const app = express()
 
-//  CORS imported later
-app.use(express.methodOverride())
-
 // cors
 app.use(
   cors({

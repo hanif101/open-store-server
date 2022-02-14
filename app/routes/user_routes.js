@@ -10,7 +10,7 @@ const asyncHandler = require('express-async-handler')
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')
 const User = require('../models/user')
 const upload = require('../../multer-mw/updateProfileImage')
-const validateCookie = require('../../lib/cookie-mw')
+
 
 const bcryptSaltRounds = 10
 const requireToken = passport.authenticate('bearer', { session: false })
@@ -111,6 +111,8 @@ router.patch(
     // save user
     await user.save()
 
+    req.session.user= user
+
     // response
     res.sendStatus(204)
   })
@@ -142,7 +144,7 @@ router.patch(
   requireToken,
   upload.single('avatar'),
   asyncHandler(async (req, res, next) => {
-    const response = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.user._id,
       {
         avatar: '/profile/' + req.avatar
@@ -153,7 +155,9 @@ router.patch(
       }
     )
 
-    res.status(200).json(response)
+    req.session.user= user
+
+    res.status(200).json(user)
   })
 )
 
@@ -166,9 +170,9 @@ router.get(
     console.log(req.session)
 
     if(!req.session.user) {
-      res.status(200).json({signedin_user: null})
+      res.status(200).json({signedin_user: null, show_item: null})
     } else {
-      res.status(200).json({signedin_user: req.session.user})
+      res.status(200).json({signedin_user: req.session.user, show_item: req.session.item })
     }
 
   })

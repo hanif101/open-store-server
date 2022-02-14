@@ -5,7 +5,7 @@ const passport = require('passport')
 const asyncHandler = require('express-async-handler')
 
 // imports
-const Item = require('../models/Item')
+const Vehicle = require('../models/Vehicle')
 const customErrors = require('../../lib/custom_errors')
 const removeBlanks = require('../../lib/remove_blank_fields')
 const createProduct = require('../../multer-mw/createProductsImages')
@@ -23,7 +23,7 @@ const router = express.Router()
 // INDEX
 // GET / electornics
 router.get(
-  '/index-items',
+  '/index-vehicles',
   asyncHandler(async (req, res, next) => {
     /*  */
     const response = await Item.find()
@@ -34,16 +34,14 @@ router.get(
 // SHOW
 // GET /show-item/:id
 router.get(
-  '/show-item/:id',
+  '/show-vehicle/:id',
 
   asyncHandler(async (req, res, next) => {
 
-    let item = await Item.findById(req.params.id).populate('owner')
+    let item = await Item.findById(req.params.id)
 
     // check if dos exist
     handle404(item)
-
-    req.session.item = item
     res.status(200).json(item)
 
   })
@@ -52,13 +50,13 @@ router.get(
 // CREATE
 // POST / electronics
 router.post(
-  '/create-item',
+  '/create-vehicle',
   requireToken,
   asyncHandler(async (req, res, next) => {
     // add owner and images
     req.body.owner = req.user._id
     req.body.imageUrl = []
-    let product = await Item.create(req.body)
+    let product = await Vehicle.create(req.body)
 
     // if no created
     if (!product) {
@@ -113,18 +111,18 @@ router.post(
 // Update Profile Image
 
 router.patch(
-  '/item/:id',
+  '/vehicle/:id',
   requireToken,
   createProduct.array('files', 10),
   asyncHandler(async (req, res, next) => {
-    console.log(req.params)
+    // console.log(req.params)
     let imageUrl = []
     req.files.map((image) => {
       let a = '/product_image/' + image.filename
       imageUrl.push(a)
     })
 
-    const response = await Item.findByIdAndUpdate(
+    const response = await Vehicle.findByIdAndUpdate(
       req.params.id,
       {
         imageUrl

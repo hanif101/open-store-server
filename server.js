@@ -56,8 +56,6 @@ app.use(express.methodOverride())
 app.use(
   cors({
     origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`,
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': ['Content-Type, Authorization, Content-Length, X-Requested-With'],
     credentials: false
   })
 )

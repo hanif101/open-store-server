@@ -24,6 +24,7 @@ const vehicleRoutes = require('./app/routes/vehicle_routes')
 // ports
 const serverDevPort = 3040
 const clientDevPort = 7165
+const port = process.env.PORT || serverDevPort
 
 // database connection
 mongoose
@@ -78,7 +79,7 @@ app.use(vehicleRoutes)
 // error Handler
 app.use(errorHandler)
 
-app.listen(serverDevPort, () => {
+app.listen(port, () => {
   console.log('Server running on port', serverDevPort)
 })
 

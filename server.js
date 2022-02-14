@@ -27,7 +27,7 @@ const clientDevPort = 7165
 const port = process.env.PORT || serverDevPort
 
 const allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
+  res.header()
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
 
@@ -56,7 +56,9 @@ app.use(express.methodOverride())
 app.use(
   cors({
     origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`,
-    credentials: true
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': ['Content-Type, Authorization, Content-Length, X-Requested-With'],
+    credentials: false
   })
 )
 

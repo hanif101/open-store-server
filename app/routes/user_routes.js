@@ -78,7 +78,7 @@ router.post(
 
     // for cookie
     req.session.user= user
-    console.log(req.session)
+    // console.log(req.session)
     // response and cookies
     res.status(200).json({ user: user.toObject() })
   })
@@ -111,7 +111,7 @@ router.patch(
     // save user
     await user.save()
 
-    req.session.user= user
+    // req.session.user= user
 
     // response
     res.sendStatus(204)
@@ -130,7 +130,7 @@ router.delete(
 
     // save the token and respond with 204
     await req.user.save()
-    req.session.user= null
+    // req.session.user= null
 
     res.sendStatus(204)
   })
@@ -155,26 +155,26 @@ router.patch(
       }
     )
 
-    req.session.user= user
+    // req.session.user= user
 
     res.status(200).json(user)
   })
 )
 
 
-// logedIn
-router.get(
-  '/loggedin',
-  asyncHandler(async (req, res, next) => {
+// // logedIn
+// router.get(
+//   '/loggedin',
+//   asyncHandler(async (req, res, next) => {
 
-    console.log(req.session)
+//     console.log(req.session)
 
-    if(!req.session.user) {
-      res.status(200).json({signedin_user: null, show_item: null})
-    } else {
-      res.status(200).json({signedin_user: req.session.user, show_item: req.session.item })
-    }
+//     if(!req.session.user) {
+//       res.status(200).json({signedin_user: null, show_item: null})
+//     } else {
+//       res.status(200).json({signedin_user: req.session.user, show_item: req.session.item })
+//     }
 
-  })
-)
-module.exports = router
+//   })
+// )
+// module.exports = router

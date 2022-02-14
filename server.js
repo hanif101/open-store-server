@@ -18,6 +18,7 @@ const requestLogger = require('./lib/request_logger')
 // routes
 const userRoutes = require('./app/routes/user_routes')
 const itemRoutes = require('./app/routes/item_routes')
+const vehicleRoutes = require('./app/routes/vehicle_routes')
 
 // ports
 const serverDevPort = 3040
@@ -70,6 +71,7 @@ app.use(requestLogger)
 // route files
 app.use(userRoutes)
 app.use(itemRoutes)
+app.use(vehicleRoutes)
 
 // error Handler
 app.use(errorHandler)

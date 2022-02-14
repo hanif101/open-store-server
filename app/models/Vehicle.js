@@ -13,11 +13,6 @@ const vehicleSchema = new mongoose.Schema({
     required: true
   },
 
-  year: {
-    type: String,
-    required: true
-  },
-
   make: {
     type: String,
     required: true

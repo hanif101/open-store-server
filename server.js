@@ -41,7 +41,6 @@ const app = express()
 app.use(
   cors({
     origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`,
-    // methods: ['GET', 'POST', 'PATCH'],
     credentials: true
   })
 )
@@ -58,7 +57,7 @@ app.use(session({
   resave: 'false',
   saveUninitialized: false,
   cookie: {
-    expires: 1000 * 60 * 60 /* 1 hour */ * 24 /* 24 hour */
+    expires: 1000 /* 1 hour */ /* 24 hour */
   }
 }))
 

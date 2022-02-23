@@ -52,17 +52,6 @@ app.use(auth)
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
-// app.use(cookieParser())
-// app.use(session({
-//   key: 'userId',
-//   secret: '123456789',
-//   resave: 'false',
-//   saveUninitialized: false,
-//   cookie: {
-//     expires: 1000 * 60 * 60 /* 1 hour */ * 24 /* 24 hour */
-//   }
-// }))
-
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(express.urlencoded({ extended: true }))
 

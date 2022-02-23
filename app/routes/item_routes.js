@@ -35,7 +35,6 @@ router.get(
 // GET /show-item/:id
 router.get(
   '/show-item/:id',
-
   asyncHandler(async (req, res, next) => {
 
     let item = await Item.findById(req.params.id).populate('owner')

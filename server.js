@@ -6,10 +6,6 @@ const cors = require('cors')
 const path = require('path')
 
 
-// const cookieParser = require('cookie-parser')
-// const session = require('express-session')
-// create .env file for private db || apis
-
 require('dotenv').config()
 
 // imports
@@ -26,7 +22,7 @@ const vehicleRoutes = require('./app/routes/vehicle_routes')
 // ports
 const serverDevPort = 3040
 const clientDevPort = 7165
-const port = process.env.PORT || serverDevPort
+let port = process.env.PORT || serverDevPort
 
 // database connection
 mongoose

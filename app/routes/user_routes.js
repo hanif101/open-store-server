@@ -5,7 +5,7 @@ const crypto = require('crypto')
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
-const generateUploadUrl = require('../../s3.js')
+// const generateUploadUrl = require('../../s3.js')
 
 // imports
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')
@@ -159,12 +159,5 @@ router.post(
   })
 )
 
-router.get('/s3url', async (req, res, next) => {
-
-  const url = await generateUploadUrl('q')
-
-  res.json({url})
-
-})
 
 module.exports = router

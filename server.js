@@ -64,7 +64,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // route files
-app.get('/', ()=> res.render("LOCO"))
+app.get('/', (req,res)=> res.render("LOCO"))
 app.use(userRoutes)
 app.use(itemRoutes)
 app.use(vehicleRoutes)

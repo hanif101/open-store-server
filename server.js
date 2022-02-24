@@ -73,7 +73,7 @@ app.use(vehicleRoutes)
 app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log('Server running on port, version 3', serverDevPort)
+  console.log('Server running on port, version 4', serverDevPort)
 })
 
 // needed just for testing

@@ -11,6 +11,8 @@ const storage = multer.diskStorage({
     /*  */
     const rootDir = path.dirname(require.main.filename)
     cb(null, path.join(rootDir, '/public/profile'))
+
+    console.log(rootDir)
   },
   /*  */
   filename: function (req, file, cb) {

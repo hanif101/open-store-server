@@ -139,7 +139,7 @@ router.delete(
 /* AVATAR */
 // PATCH
 // Update Profile Image
-router.patch(
+router.post(
   '/avatar',
   requireToken,
   upload.single('avatar'),
@@ -154,9 +154,7 @@ router.patch(
         runValidators: true
       }
     )
-
-    // req.session.user= user
-
+    
     res.status(200).json(user)
   })
 )

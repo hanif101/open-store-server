@@ -42,6 +42,7 @@ const app = express()
 // cors
 app.use(
   cors({
+    'Access-Control-Allow-Origin': '*',
     origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`
   })
 )

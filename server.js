@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
 
+
 // const cookieParser = require('cookie-parser')
 // const session = require('express-session')
 // create .env file for private db || apis
@@ -51,10 +52,10 @@ app.use(
 )
 
 // register passport authentication middleware
-
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(auth)
 app.use(express.json())
-app.use(express.static('./public'))
+
 
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(express.urlencoded({ extended: true }))
@@ -63,7 +64,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // route files
-app.get('/', (req,res)=> res.send("<h1>Hello World</h1>"))
+app.get('/', ()=> res.render("LOCO"))
 app.use(userRoutes)
 app.use(itemRoutes)
 app.use(vehicleRoutes)

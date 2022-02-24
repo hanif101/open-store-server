@@ -1,3 +1,4 @@
+/* eslint-disable */
 const multer = require('multer')
 const path = require('path')
 const { BadCredentialsError } = require('../lib/custom_errors')
@@ -6,12 +7,10 @@ const uniqid = require('uniqid')
 // Storage, FileFilter
 
 const storage = multer.diskStorage({
-
   destination: function (req, file, cb) {
     /*  */
     const rootDir = path.dirname(require.main.filename)
-    cb(null, path.join(rootDir, '/public/profile'))
-
+    cb(null, path.join(rootDir, 'public/profile'))
     console.log(rootDir)
   },
   /*  */
@@ -34,6 +33,6 @@ const fileFilter = (req, file, cb) => {
   return cb(null, true)
 }
 
-let upload = multer({storage, fileFilter})
+let upload = multer({ storage, fileFilter })
 
 module.exports = upload

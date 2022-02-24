@@ -11,7 +11,6 @@ const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors
 const User = require('../models/user')
 const upload = require('../../multer-mw/updateProfileImage')
 
-
 const bcryptSaltRounds = 10
 const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
@@ -154,31 +153,39 @@ router.post(
         runValidators: true
       }
     )
-    
+
     res.status(200).json(user)
+
+    // let sampleFile
+    // let uploadPath
+
+    // if (!req.files || Object.keys(req.files).length === 0) {
+    //   return res.status(400).send('No files were uploaded.')
+    // }
+
+    // sampleFile = req.files.file
+    // uploadPath = __dirname + '/somewhere/on/your/server/' + sampleFile.name
   })
 )
 
+// app.post('/upload', function (req, res) {
+//   let sampleFile
+//   let uploadPath
 
-// // logedIn
-// router.get(
-//   '/loggedin',
-//   asyncHandler(async (req, res, next) => {
+//   if (!req.files || Object.keys(req.files).length === 0) {
+//     return res.status(400).send('No files were uploaded.')
+//   }
 
-//     console.log(req.session)
+//   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+//   sampleFile = req.files.sampleFile
+//   uploadPath = __dirname + '/somewhere/on/your/server/' + sampleFile.name
 
-//     if(!req.session.user) {
-//       res.status(200).json({signedin_user: null, show_item: null})
-//     } else {
-//       res.status(200).json({signedin_user: req.session.user, show_item: req.session.item })
-//     }
+//   // Use the mv() method to place the file somewhere on your server
+//   sampleFile.mv(uploadPath, function (err) {
+//     if (err) return res.status(500).send(err)
 
+//     res.send('File uploaded!')
 //   })
-// )
-
-
-
-
-
+// })
 
 module.exports = router

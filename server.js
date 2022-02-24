@@ -4,7 +4,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
-const ejs = require('ejs')
 
 // const cookieParser = require('cookie-parser')
 // const session = require('express-session')
@@ -55,8 +54,6 @@ app.use(
 
 app.use(auth)
 app.use(express.json())
-
-app.set('view engine', 'ejs')
 app.use(express.static('./public'))
 
 // this parses requests sent by `$.ajax`, which use a different content type

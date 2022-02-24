@@ -52,9 +52,9 @@ app.use(
 )
 
 // register passport authentication middleware
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(auth)
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'public')))
 
 
 // this parses requests sent by `$.ajax`, which use a different content type
@@ -64,7 +64,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // route files
-app.get('/', (req,res)=> res.render("LOCO"))
+app.get('/', (req,res)=> res.render("hello world"))
 app.use(userRoutes)
 app.use(itemRoutes)
 app.use(vehicleRoutes)

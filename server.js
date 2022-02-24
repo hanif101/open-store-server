@@ -1,8 +1,10 @@
+/* eslint-disable */
 // NPM packages
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
+const ejs = require('ejs')
 
 // const cookieParser = require('cookie-parser')
 // const session = require('express-session')
@@ -39,6 +41,8 @@ mongoose
 // app & server created
 const app = express()
 
+
+
 // cors
 app.use(
   cors({
@@ -51,7 +55,9 @@ app.use(
 
 app.use(auth)
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'public')))
+
+app.set('view engine', 'ejs')
+app.use(express.static('./public'))
 
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(express.urlencoded({ extended: true }))
@@ -60,6 +66,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // route files
+app.get('/', (req,res)=> res.send("<h1>Hello World</h1>"))
 app.use(userRoutes)
 app.use(itemRoutes)
 app.use(vehicleRoutes)

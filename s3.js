@@ -23,10 +23,13 @@ const uploadFile = (file) => {
   const uploadsParams = {
     Bucket: bucketName,
     Body: fileStream,
-    Key: file.filename
+    Key: file.filename,
+    Bucket: bucketName,
   }
 
   return s3.upload(uploadsParams).promise()
+
+ 
 }
 
 // download from AWS

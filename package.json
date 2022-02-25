@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1080.0",
+    "axios": "^0.26.0",
     "bcrypt": "^3.0.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

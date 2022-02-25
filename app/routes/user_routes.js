@@ -5,12 +5,14 @@ const crypto = require('crypto')
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
-// const generateUploadUrl = require('../../s3.js')
+const generateUploadUrl = require('../../s3.js')
+const axios = require('axios')
+const upload = require('../../multer-mw/updateProfileImage')
+const { uploadFile, downloadFile } = require('../../s3')
 
 // imports
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')
 const User = require('../models/user')
-const upload = require('../../multer-mw/updateProfileImage')
 
 const bcryptSaltRounds = 10
 const requireToken = passport.authenticate('bearer', { session: false })
@@ -144,20 +146,37 @@ router.post(
   requireToken,
   upload.single('avatar'),
   asyncHandler(async (req, res, next) => {
-    const user = await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        avatar: '/profile/' + req.avatar
-      },
-      {
-        new: true,
-        runValidators: true
-      }
-    )
 
-    res.status(200).json(user)
+    const file = req.file
+    const result = await uploadFile(file)
+
+    console.log(result)
+
+    // const user = await User.findByIdAndUpdate(
+    //   req.user._id,
+    //   {
+    //     avatar: '/profile/' + req.avatar
+    //   },
+    //   {
+    //     new: true,
+    //     runValidators: true
+    //   }
+    // )
+
+    res.status(200).send({imagePath: `/images/${result.Key}`})
   })
 )
 
+
+
+router.get(
+  '/images/:key',
+  asyncHandler(async (req, res, next) => {
+
+    const key  = req.params.key 
+    let readStream = downloadFile(key)
+    readStream.pipe(res)
+  })
+)
 
 module.exports = router

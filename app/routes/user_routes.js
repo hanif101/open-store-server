@@ -152,31 +152,31 @@ router.post(
 
     console.log(result)
 
-    // const user = await User.findByIdAndUpdate(
-    //   req.user._id,
-    //   {
-    //     avatar: '/profile/' + req.avatar
-    //   },
-    //   {
-    //     new: true,
-    //     runValidators: true
-    //   }
-    // )
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        avatar: result.Location
+      },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
 
-    res.status(200).send({imagePath: `/images/${result.Key}`})
+    res.status(200).json({user: user.toObject()})
   })
 )
 
 
 
-router.get(
-  '/images/:key',
-  asyncHandler(async (req, res, next) => {
+// router.get(
+//   '/images/:key',
+//   asyncHandler(async (req, res, next) => {
 
-    const key  = req.params.key 
-    let readStream = downloadFile(key)
-    readStream.pipe(res)
-  })
-)
+//     const key  = req.params.key 
+//     let readStream = downloadFile(key)
+//     readStream.pipe(res)
+//   })
+// )
 
 module.exports = router

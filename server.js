@@ -65,6 +65,7 @@ app.use(requestLogger)
 // route files
 app.get('/', (req,res)=> res.render("hello world"))
 app.use(userRoutes)
+
 // app.use(itemRoutes)
 // app.use(vehicleRoutes)
 
@@ -72,7 +73,7 @@ app.use(userRoutes)
 app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log('Server running on port, version 6', serverDevPort)
+  console.log('Server running on port, version 7', serverDevPort)
 })
 
 // needed just for testing

@@ -7,8 +7,17 @@ const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
 const generateUploadUrl = require('../../s3.js')
 const axios = require('axios')
-const upload = require('../../multer-mw/updateProfileImage')
+// const upload = require('../../multer-mw/updateProfileImage')
 const { uploadFile, downloadFile } = require('../../s3')
+
+
+
+const multer = require('multer')
+const path = require('path')
+const uniqid = require('uniqid')
+
+const rootDir = path.dirname(require.main.filename)
+const upload = multer({ dest: path.join(rootDir, 'public/uploads') })
 
 // imports
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')

@@ -73,7 +73,7 @@ app.use(userRoutes)
 app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log('Server running on port, version 7', serverDevPort)
+  console.log('Server running on port, version 8', serverDevPort)
 })
 
 // needed just for testing

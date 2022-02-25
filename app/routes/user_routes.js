@@ -17,7 +17,7 @@ const path = require('path')
 const uniqid = require('uniqid')
 
 const rootDir = path.dirname(require.main.filename)
-const upload = multer({ dest: path.join(rootDir, 'public/uploads') })
+const upload = multer({ dest: path.join(rootDir, '/public/uploads') })
 
 // imports
 const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')

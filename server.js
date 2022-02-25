@@ -65,8 +65,8 @@ app.use(requestLogger)
 // route files
 app.get('/', (req,res)=> res.render("hello world"))
 app.use(userRoutes)
-app.use(itemRoutes)
-app.use(vehicleRoutes)
+// app.use(itemRoutes)
+// app.use(vehicleRoutes)
 
 // error Handler
 app.use(errorHandler)

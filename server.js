@@ -3,7 +3,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const path = require('path')
 require('dotenv').config()
 
 // imports
@@ -15,7 +14,6 @@ const requestLogger = require('./lib/request_logger')
 // routes
 const userRoutes = require('./app/routes/user_routes')
 const itemRoutes = require('./app/routes/item_routes')
-
 
 // ports
 const serverDevPort = 3040
@@ -38,7 +36,6 @@ const app = express()
 // cors
 app.use(
   cors({
-    'Access-Control-Allow-Origin': '*',
     origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`
   })
 )
@@ -55,16 +52,15 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // route files
-app.get('/', (req,res)=> res.render("hello world"))
+app.get('/', (req, res) => res.render('hello world'))
 app.use(userRoutes)
 app.use(itemRoutes)
-
 
 // error Handler
 app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log('Server running on port, version 9', serverDevPort)
+  console.log('Server running on port, version 10', serverDevPort)
 })
 
 // needed just for testing

@@ -5,13 +5,7 @@ const crypto = require('crypto')
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
-const generateUploadUrl = require('../../s3.js')
 const axios = require('axios')
-const fs = require('fs')
-const sharp = require('sharp');
-
-const multer = require('multer')
-const upload = multer()
 
 // imports
 const { BadCredentialsError, BadParamsError, handle404 } = require('../../lib/custom_errors')
@@ -81,10 +75,6 @@ router.post(
       throw new BadCredentialsError()
     }
 
-    // for cookie
-    // req.session.user= user
-    // console.log(req.session)
-    // response and cookies
     res.status(200).json({ user: user.toObject() })
   })
 )
@@ -138,54 +128,6 @@ router.delete(
     // req.session.user= null
 
     res.sendStatus(204)
-  })
-)
-
-/* AVATAR */
-// PATCH
-// Update Profile Image
-router.post(
-  '/avatar',
-  requireToken,
-  upload.any(),
-  asyncHandler(async (req, res, next) => {
-    let file = req.files[0]
-    let user = await User.findById(req.user._id)
-    const buffer = await sharp(file).resize({ width: 500, height: 500}).png().toBuffer()
-
-    if (user) {
-      user.pfpType = file.mimetype
-      user.avatar = buffer
-      await user.save()
-
-      res.status(200).json({user})
-      return
-    } else {
-      console.log('error!')
-      res.status(400).end()
-    }
-  })
-)
-
-/* AVATAR */
-// PATCH
-// Update Profile Image
-router.get(
-  '/get-avatar',
-  requireToken,
-  asyncHandler(async (req, res, next) => {
-    let user = await User.findById(req.user._id)
-
-    if (!user || !user.avatar) {
-      throw new BadCredentialsError()
-    }
-
-    //response header, use set
-    res.set('Content-Type', `${user.pfpType}`)
-
-    
-    
-    res.send("sd")
   })
 )
 

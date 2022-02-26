@@ -4,8 +4,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
-
-
 require('dotenv').config()
 
 // imports
@@ -17,15 +15,12 @@ const requestLogger = require('./lib/request_logger')
 // routes
 const userRoutes = require('./app/routes/user_routes')
 const itemRoutes = require('./app/routes/item_routes')
-const vehicleRoutes = require('./app/routes/vehicle_routes')
+
 
 // ports
 const serverDevPort = 3040
 const clientDevPort = 7165
 let port = process.env.PORT || serverDevPort
-
-
-
 
 // database connection
 mongoose
@@ -40,8 +35,6 @@ mongoose
 // app & server created
 const app = express()
 
-
-
 // cors
 app.use(
   cors({
@@ -53,8 +46,7 @@ app.use(
 // register passport authentication middleware
 app.use(auth)
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'public')))
-
+// app.use(express.static(path.join(__dirname, 'public')))
 
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(express.urlencoded({ extended: true }))
@@ -66,7 +58,7 @@ app.use(requestLogger)
 app.get('/', (req,res)=> res.render("hello world"))
 app.use(userRoutes)
 app.use(itemRoutes)
-app.use(vehicleRoutes)
+
 
 // error Handler
 app.use(errorHandler)

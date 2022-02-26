@@ -27,6 +27,8 @@ router.get(
   asyncHandler(async (req, res, next) => {
     /*  */
     const response = await Item.find()
+    handle404(response)
+    
     res.status(200).json(response)
   })
 )
@@ -109,31 +111,31 @@ router.post(
 // POST or PATCH
 // Update Profile Image
 
-router.patch(
-  '/item/:id',
-  requireToken,
-  createProduct.array('files', 10),
-  asyncHandler(async (req, res, next) => {
-    console.log(req.params)
-    let imageUrl = []
-    req.files.map((image) => {
-      let a = '/product_image/' + image.filename
-      imageUrl.push(a)
-    })
+// router.patch(
+//   '/item/:id',
+//   requireToken,
+//   createProduct.array('files', 10),
+//   asyncHandler(async (req, res, next) => {
+//     console.log(req.params)
+//     let imageUrl = []
+//     req.files.map((image) => {
+//       let a = '/product_image/' + image.filename
+//       imageUrl.push(a)
+//     })
 
-    const response = await Item.findByIdAndUpdate(
-      req.params.id,
-      {
-        imageUrl
-      },
-      {
-        new: true,
-        runValidators: true
-      }
-    )
+//     const response = await Item.findByIdAndUpdate(
+//       req.params.id,
+//       {
+//         imageUrl
+//       },
+//       {
+//         new: true,
+//         runValidators: true
+//       }
+//     )
 
-    res.status(200).json(response)
-  })
-)
+//     res.status(200).json(response)
+//   })
+// )
 
 module.exports = router

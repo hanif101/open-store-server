@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
     },
 
     avatar: {
+      type: Buffer
+    },
+
+    pfpType: {
       type: String
     }
 
@@ -43,5 +47,12 @@ const userSchema = new mongoose.Schema(
     }
   }
 )
+
+userSchema.methods.getBuffer = function () {
+  if (!this.avatar) {
+    return false
+  }
+  return this.avatar
+}
 
 module.exports = mongoose.model('User', userSchema)

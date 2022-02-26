@@ -15,34 +15,21 @@ const s3 = new S3({
   signatureVersion: 'v4'
 })
 
-// upload to AWS
-const uploadFile = (file) => {
-  console.log(file)
-  const fileStream = fs.createReadStream(file.path)
+// generate  AWS url
+const generateS3Url = (username) => {
+  let imageName = username + '-' + `${uniqid()}`
 
-  const uploadsParams = {
+  const params = {
     Bucket: bucketName,
-    Body: fileStream,
-    Key: file.filename,
-    Bucket: bucketName,
+    Key: imageName,
+    Expires: 3600
   }
 
-  return s3.upload(uploadsParams).promise()
+  const uploadUrl = s3.getSignedUrlPromise('putObject', params)
 
- 
-}
-
-// download from AWS
-const downloadFile = (fileKey) => {
-  const downloadsParams = {
-    Key: fileKey,
-    Bucket: bucketName
-  }
-
-  return s3.getObject(downloadsParams).createReadStream()
+  return uploadUrl
 }
 
 module.exports = {
-  uploadFile,
-  downloadFile
+  generateS3Url
 }

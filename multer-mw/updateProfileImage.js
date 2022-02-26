@@ -1,8 +1,9 @@
 // /* eslint-disable */
-// const multer = require('multer')
+
 // const path = require('path')
 // const { BadCredentialsError } = require('../lib/custom_errors')
 // const uniqid = require('uniqid')
+// const multer = require('multer')
 // const upload = multer({ dest: 'uploads/' })
 
 // // Storage, FileFilter
@@ -11,7 +12,7 @@
 //   destination: function (req, file, cb) {
 //     /*  */
 //     const rootDir = path.dirname(require.main.filename)
-//     cb(null, path.join(rootDir, 'public/uploads'))
+//     cb(null, path.join(rootDir, '/public/uploads'))
 //   },
 //   /*  */
 //   filename: function (req, file, cb) {

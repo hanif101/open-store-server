@@ -7,20 +7,14 @@ const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
 const generateUploadUrl = require('../../s3.js')
 const axios = require('axios')
-// const upload = require('../../multer-mw/updateProfileImage')
-const { uploadFile, downloadFile } = require('../../s3')
-
-
+const fs = require('fs')
+const sharp = require('sharp');
 
 const multer = require('multer')
-const path = require('path')
-const uniqid = require('uniqid')
-
-const rootDir = path.dirname(require.main.filename)
-const upload = multer({ dest: path.join(rootDir, '/public/uploads') })
+const upload = multer()
 
 // imports
-const { BadCredentialsError, BadParamsError } = require('../../lib/custom_errors')
+const { BadCredentialsError, BadParamsError, handle404 } = require('../../lib/custom_errors')
 const User = require('../models/user')
 
 const bcryptSaltRounds = 10
@@ -153,39 +147,46 @@ router.delete(
 router.post(
   '/avatar',
   requireToken,
-  upload.single('avatar'),
+  upload.any(),
   asyncHandler(async (req, res, next) => {
+    let file = req.files[0]
+    let user = await User.findById(req.user._id)
+    const buffer = await sharp(file).resize({ width: 500, height: 500}).png().toBuffer()
 
-    const file = req.file
-    const result = await uploadFile(file)
+    if (user) {
+      user.pfpType = file.mimetype
+      user.avatar = buffer
+      await user.save()
 
-    console.log(result)
-
-    const user = await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        avatar: result.Location
-      },
-      {
-        new: true,
-        runValidators: true
-      }
-    )
-
-    res.status(200).json({user: user.toObject()})
+      res.status(200).json({user})
+      return
+    } else {
+      console.log('error!')
+      res.status(400).end()
+    }
   })
 )
 
+/* AVATAR */
+// PATCH
+// Update Profile Image
+router.get(
+  '/get-avatar',
+  requireToken,
+  asyncHandler(async (req, res, next) => {
+    let user = await User.findById(req.user._id)
 
+    if (!user || !user.avatar) {
+      throw new BadCredentialsError()
+    }
 
-// router.get(
-//   '/images/:key',
-//   asyncHandler(async (req, res, next) => {
+    //response header, use set
+    res.set('Content-Type', `${user.pfpType}`)
 
-//     const key  = req.params.key 
-//     let readStream = downloadFile(key)
-//     readStream.pipe(res)
-//   })
-// )
+    
+    
+    res.send("sd")
+  })
+)
 
 module.exports = router

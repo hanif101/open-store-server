@@ -28,7 +28,7 @@ router.get(
     /*  */
     const response = await Item.find()
     handle404(response)
-    
+
     res.status(200).json(response)
   })
 )
@@ -38,13 +38,10 @@ router.get(
 router.get(
   '/show-item/:id',
   asyncHandler(async (req, res, next) => {
-
     let item = await Item.findById(req.params.id).populate('owner')
-
     // check if dos exist
     handle404(item)
     res.status(200).json(item)
-
   })
 )
 
@@ -69,26 +66,28 @@ router.post(
 
 // UPDATE
 // PATCH /examples/5a7db6c74d55bc51bdf39793
-// router.patch('/examples/:id', requireToken, removeBlanks, (req, res, next) => {
-//   // if the client attempts to change the `owner` property by including a new
-//   // owner, prevent that by deleting that key/value pair
-//   delete req.body.example.owner
+router.patch(
+  '/patch-item/:id',
+  requireToken,
+  removeBlanks,
+  asyncHandler(async (req, res, next) => {
 
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     .then(example => {
-//       // pass the `req` object and the Mongoose record to `requireOwnership`
-//       // it will throw an error if the current user isn't the owner
-//       requireOwnership(req, example)
+    Item.findById(req.params.id)
+      .then(handle404)
+      .then((res) => {
+        // pass the `req` object and the Mongoose record to `requireOwnership`
+        // it will throw an error if the current user isn't the owner
+        requireOwnership(req, res)
 
-//       // pass the result of Mongoose's `.update` to the next `.then`
-//       return example.updateOne(req.body.example)
-//     })
-//     // if that succeeded, return 204 and no JSON
-//     .then(() => res.sendStatus(204))
-//     // if an error occurs, pass it to the handler
-//     .catch(next)
-// })
+        // pass the result of Mongoose's `.update` to the next `.then`
+        return res.updateOne(req.body)
+      })
+      // if that succeeded, return 204 and no JSON
+      .then(() => res.sendStatus(204))
+      // if an error occurs, pass it to the handler
+      .catch(next)
+  })
+)
 
 // DESTROY
 // DELETE /examples/5a7db6c74d55bc51bdf39793

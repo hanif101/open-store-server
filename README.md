@@ -22,7 +22,7 @@ ___
 
 ## ERD
 ---
-<img src="./test/frames.png" style="margin-right:.5rem; height: 300px; width: 400px"  />
+<img src="./test/frames.png" style="margin-right:.5rem; height: 400px; width: 600px"  />
 
 
 # Planning to todos

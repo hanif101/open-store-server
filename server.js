@@ -14,6 +14,7 @@ const requestLogger = require('./lib/request_logger')
 // routes
 const userRoutes = require('./app/routes/user_routes')
 const itemRoutes = require('./app/routes/item_routes')
+const savedRoutes = require('./app/routes/saved_routes')
 
 // ports
 const serverDevPort = 3040
@@ -55,12 +56,13 @@ app.use(requestLogger)
 app.get('/', (req, res) => res.render('hello world'))
 app.use(userRoutes)
 app.use(itemRoutes)
+app.use(savedRoutes)
 
 // error Handler
 app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log('Server running on port, version 10', serverDevPort)
+  console.log('Server running on port, version 11', serverDevPort)
 })
 
 // needed just for testing

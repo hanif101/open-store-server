@@ -88,7 +88,7 @@ router.patch(
     const { passwords } = req.body
 
     // gets user from db
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user._id)
 
     // check that the old password is correct
     const correctPassword = await bcrypt.compare(passwords.old, user.hashedPassword)
@@ -106,10 +106,8 @@ router.patch(
     // save user
     await user.save()
 
-    // req.session.user= user
-
     // response
-    res.sendStatus(204)
+    res.status(200).json({user: user.toObject()})
   })
 )
 

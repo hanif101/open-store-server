@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
   {
-
     username: {
       type: String,
       required: true,
@@ -32,8 +31,9 @@ const userSchema = new mongoose.Schema(
 
     pfpType: {
       type: String
-    }
+    },
 
+    saved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }]
   },
 
   {

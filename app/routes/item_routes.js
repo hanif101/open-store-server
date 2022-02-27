@@ -71,7 +71,6 @@ router.patch(
   requireToken,
   removeBlanks,
   asyncHandler(async (req, res, next) => {
-
     Item.findById(req.params.id)
       .then(handle404)
       .then((res) => {
@@ -91,50 +90,23 @@ router.patch(
 
 // DESTROY
 // DELETE /examples/5a7db6c74d55bc51bdf39793
-// router.delete('/examples/:id', requireToken, (req, res, next) => {
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     .then(example => {
-//       // throw an error if current user doesn't own `example`
-//       requireOwnership(req, example)
-//       // delete the example ONLY IF the above didn't throw
-//       example.deleteOne()
-//     })
-//     // send back 204 and no content if the deletion succeeded
-//     .then(() => res.sendStatus(204))
-//     // if an error occurs, pass it to the handler
-//     .catch(next)
-// })
-
-/* Upload Images */
-// POST or PATCH
-// Update Profile Image
-
-// router.patch(
-//   '/item/:id',
-//   requireToken,
-//   createProduct.array('files', 10),
-//   asyncHandler(async (req, res, next) => {
-//     console.log(req.params)
-//     let imageUrl = []
-//     req.files.map((image) => {
-//       let a = '/product_image/' + image.filename
-//       imageUrl.push(a)
-//     })
-
-//     const response = await Item.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         imageUrl
-//       },
-//       {
-//         new: true,
-//         runValidators: true
-//       }
-//     )
-
-//     res.status(200).json(response)
-//   })
-// )
+router.delete(
+  '/delete-item/:id',
+  requireToken,
+  asyncHandler(async (req, res, next) => {
+    Item.findById(req.params.id)
+      .then(handle404)
+      .then((response) => {
+        // throw an error if current user doesn't own `example`
+        requireOwnership(req, response)
+        // delete the example ONLY IF the above didn't throw
+        response.deleteOne()
+      })
+      // send back 204 and no content if the deletion succeeded
+      .then(() => res.sendStatus(204))
+      // if an error occurs, pass it to the handler
+      .catch(next)
+  })
+)
 
 module.exports = router

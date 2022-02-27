@@ -22,7 +22,7 @@ ___
 
 ## ERD
 ---
- ![appscreen](./public/frames.png)
+<img src="./public/frames.png" style="margin-right:.5rem; height: 300px; width: 400px"  />
 
 
 # Planning to todos
